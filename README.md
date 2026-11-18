@@ -17,6 +17,7 @@ Write-up: https://junyanguo02.github.io/f1a-strategy-sim/#/writeup
 | Extra stop under Safety Car / VSC (26 pairs) | **−11.6 s** on average — the "cheap stop" effect points the other way (point estimate only: 95% CI −28.4 to +3.3 s). |
 | Simulator back-test vs teams' actual choices | Pre-race mode agrees with the actual number of stops **47%** of the time; when it disagrees, it recommends **fewer stops in 84%** of cases (exactly one fewer in 64%). Robust to pit-loss data cleaning: 79.9% (pre-race) and 93.1% (post-race) after removing wet-weather changes, timing anomalies and penalties. |
 | Explanations tested inside the model and not supported | Tyre "cliff", circuit-specific Safety Car rates, traffic/overtaking/undercut, deliberate tyre management on long stints, stint-to-stint degradation differences. |
+| Physics cross-check (lap simulator on 5 real 2024 circuits) | Mass sensitivity 0.017–0.030 s/kg/lap → fuel effect ≈ 0.034–0.049 s/lap, below the statistical term (0.048–0.070) but in the same circuit order under circuit-specific grip; a track-evolution proxy explains most of the gap, so the statistical "fuel" term is read as fuel + track evolution. |
 
 These are descriptive results. These tests are run inside the model and do not prove causes in real races. Stop counts are chosen by teams, not randomised; team orders, track-position defence and risk preferences are not observable in public data.
 
@@ -30,6 +31,7 @@ These are descriptive results. These tests are run inside the model and do not p
   - multi car: full field with traffic, overtaking, pit-lane rejoin (undercut emerges naturally) and SC compression;
   - common random numbers, so strategies are compared by paired differences;
   - **pre-race mode**: only information available before the race (previous-season tyre posterior, last three races' driver pace, pit-loss and SC history up to the race date).
+- **Lap simulator** (src/f1a/lapsim/) — point-mass quasi-steady-state lap-time model on real centrelines extracted from OpenF1 position data; calibrated to measured speed traces (effective parameters, cross-check only).
 - **Interactive app** (`app/`) — pick a race, edit strategies, compare paired time differences, switch Safety Car scenarios and pre-race / post-race mode.
 
 ## Install
@@ -63,12 +65,16 @@ Every analysis script runs with one command and a fixed seed. Scripts with a two
 | `analysis/` | scripts that build the race inputs and the strategy datasets |
 | `analysis/pitloss_audit/` | pit-stop classifications, cleaning rules and pool statistics |
 | `analysis/pitloss_sensitivity/` | pre-race and post-race back-test results across three pit-loss pool definitions |
+| `analysis/track_geometry/` | Five real circuit centrelines (CSV), speed traces and geometry |
+| `analysis/lapsim_calibration/` | Speed-trace calibration and physical fuel cross-check |
+| `analysis/dirty_air/` | Descriptive corner-speed losses by gap and corner class |
 | `scripts/` | data build, back-tests, demo |
 | `app/` | Streamlit app |
 | `tests/` | unit and integration tests |
 
 ## Limitations
 
+- The lap simulator is a point-mass model: power and drag are identified only as a ratio and the fitted drag area is unphysical; it is used to cross-check the fuel term, not as a vehicle model. Dirty-air corner-speed losses (analysis/dirty_air/) are descriptive.
 - Pit-loss samples were audited (analysis/pitloss_audit/); the default simulator uses the original pools for reproducibility, and `pit_loss_filter="clean"` reproduces the robustness check (analysis/pitloss_sensitivity/).
 - Pre-race mode uses last season's tyre parameters; tyre behaviour can change between seasons (e.g. the posterior mean soft-tyre degradation slope at Barcelona is about 0.10 s/lap in 2024 vs 0.06 s/lap in 2023), and pre-race mode cannot see such changes.
 - Overtaking, start and SC-restart constants are calibrated on the full sample (sensitivity: 15 of 520 recommendations change under ±0.5 on the overtaking intercept or 0.5 / 1.2 s restart spacing).

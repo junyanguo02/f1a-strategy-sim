@@ -1,0 +1,458 @@
+{
+  "units": {
+    "x_m": "m",
+    "y_m": "m (OpenF1 y; horizontal)",
+    "s_m": "m",
+    "curvature_1pm": "1/m signed",
+    "speed": "km/h",
+    "length": "m"
+  },
+  "source": "OpenF1 /v1/location (x,y in 1/10 m) and /v1/car_data; five clean green laps per race; grid 5 m; centerline smooth 9 points (45 m); curvature periodic central differences",
+  "notes": [
+    "OpenF1 coordinates x,y horizontal in 1/10 m; z is elevation and not used.",
+    "Lap selection: green, non-pit-in/out, not lap 1, fastest 5 distinct drivers with data.",
+    "Centerline starts at each lap's first location sample; raw lap paths closed by a straight segment."
+  ],
+  "tracks": [
+    {
+      "race_id": "2024-1",
+      "session_key": 9472,
+      "circuit": "bahrain",
+      "name": "Bahrain International Circuit",
+      "race_laps": 57,
+      "official_length_m": 5412.0,
+      "centerline_length_m": 5335.0,
+      "length_error_pct": -1.4227642276422814,
+      "n_points": 1067,
+      "grid_m": 5.0,
+      "reference_lap_time_s": 93.94739999999999,
+      "min_radius_m": 19.829609013317956,
+      "smoothing_window_points": 9,
+      "smoothing_window_m": 45.0,
+      "selected_laps": [
+        {
+          "driver": "VER",
+          "driver_number": 1,
+          "lap": 39,
+          "lap_time_s": 92.608,
+          "date_start": "2024-03-02T16:05:28.544000+00:00"
+        },
+        {
+          "driver": "LEC",
+          "driver_number": 16,
+          "lap": 36,
+          "lap_time_s": 94.09,
+          "date_start": "2024-03-02T16:01:12.318000+00:00"
+        },
+        {
+          "driver": "ALO",
+          "driver_number": 14,
+          "lap": 48,
+          "lap_time_s": 94.199,
+          "date_start": "2024-03-02T16:20:52.842000+00:00"
+        },
+        {
+          "driver": "PER",
+          "driver_number": 11,
+          "lap": 40,
+          "lap_time_s": 94.364,
+          "date_start": "2024-03-02T16:07:19.721000+00:00"
+        },
+        {
+          "driver": "NOR",
+          "driver_number": 4,
+          "lap": 35,
+          "lap_time_s": 94.476,
+          "date_start": "2024-03-02T15:59:38.849000+00:00"
+        }
+      ],
+      "raw_lap_lengths_m": [
+        5336.488715996418,
+        5336.90225663188,
+        5337.120182288798,
+        5337.509958093988,
+        5337.0413897395665
+      ],
+      "smoothing_sensitivity": [
+        {
+          "window_points": 3,
+          "window_m": 15.0,
+          "length_m": 5325.583973750955,
+          "min_radius_m": 18.472065588347586
+        },
+        {
+          "window_points": 5,
+          "window_m": 25.0,
+          "length_m": 5318.775068293812,
+          "min_radius_m": 18.838059894014663
+        },
+        {
+          "window_points": 9,
+          "window_m": 45.0,
+          "length_m": 5296.622400645975,
+          "min_radius_m": 19.686963691844497
+        },
+        {
+          "window_points": 15,
+          "window_m": 75.0,
+          "length_m": 5246.759600415892,
+          "min_radius_m": 20.832036512926994
+        }
+      ],
+      "file": "outputs/2024-1.parquet",
+      "figure": "outputs/figures/2024-1.png"
+    },
+    {
+      "race_id": "2024-3",
+      "session_key": 9488,
+      "circuit": "albert_park",
+      "name": "Albert Park Circuit",
+      "race_laps": 58,
+      "official_length_m": 5278.0,
+      "centerline_length_m": 5240.0,
+      "length_error_pct": -0.719969685486932,
+      "n_points": 1048,
+      "grid_m": 5.0,
+      "reference_lap_time_s": 80.0484,
+      "min_radius_m": 27.825177165961133,
+      "smoothing_window_points": 9,
+      "smoothing_window_m": 45.0,
+      "selected_laps": [
+        {
+          "driver": "LEC",
+          "driver_number": 16,
+          "lap": 56,
+          "lap_time_s": 79.813,
+          "date_start": "2024-03-24T05:19:11.454000+00:00"
+        },
+        {
+          "driver": "NOR",
+          "driver_number": 4,
+          "lap": 49,
+          "lap_time_s": 79.915,
+          "date_start": "2024-03-24T05:09:52.963000+00:00"
+        },
+        {
+          "driver": "SAI",
+          "driver_number": 55,
+          "lap": 48,
+          "lap_time_s": 80.031,
+          "date_start": "2024-03-24T05:08:23.400000+00:00"
+        },
+        {
+          "driver": "PIA",
+          "driver_number": 81,
+          "lap": 54,
+          "lap_time_s": 80.199,
+          "date_start": "2024-03-24T05:16:44.584000+00:00"
+        },
+        {
+          "driver": "RUS",
+          "driver_number": 63,
+          "lap": 53,
+          "lap_time_s": 80.284,
+          "date_start": "2024-03-24T05:15:54.696000+00:00"
+        }
+      ],
+      "raw_lap_lengths_m": [
+        5238.230126202023,
+        5237.73024714664,
+        5239.611611219836,
+        5236.8988996573025,
+        5237.293787726204
+      ],
+      "smoothing_sensitivity": [
+        {
+          "window_points": 3,
+          "window_m": 15.0,
+          "length_m": 5223.832085562919,
+          "min_radius_m": 25.7685443589703
+        },
+        {
+          "window_points": 5,
+          "window_m": 25.0,
+          "length_m": 5219.519841222174,
+          "min_radius_m": 26.28103886693852
+        },
+        {
+          "window_points": 9,
+          "window_m": 45.0,
+          "length_m": 5205.386825797295,
+          "min_radius_m": 27.64137607732192
+        },
+        {
+          "window_points": 15,
+          "window_m": 75.0,
+          "length_m": 5173.4114932772345,
+          "min_radius_m": 29.96461732956999
+        }
+      ],
+      "file": "outputs/2024-3.parquet",
+      "figure": "outputs/figures/2024-3.png"
+    },
+    {
+      "race_id": "2024-10",
+      "session_key": 9539,
+      "circuit": "catalunya",
+      "name": "Circuit de Barcelona-Catalunya",
+      "race_laps": 66,
+      "official_length_m": 4657.0,
+      "centerline_length_m": 4610.0,
+      "length_error_pct": -1.0092334120678559,
+      "n_points": 922,
+      "grid_m": 5.0,
+      "reference_lap_time_s": 77.6718,
+      "min_radius_m": 30.80465431819309,
+      "smoothing_window_points": 9,
+      "smoothing_window_m": 45.0,
+      "selected_laps": [
+        {
+          "driver": "NOR",
+          "driver_number": 4,
+          "lap": 51,
+          "lap_time_s": 77.115,
+          "date_start": "2024-06-23T14:10:47.574000+00:00"
+        },
+        {
+          "driver": "VER",
+          "driver_number": 1,
+          "lap": 54,
+          "lap_time_s": 77.776,
+          "date_start": "2024-06-23T14:14:34.901000+00:00"
+        },
+        {
+          "driver": "PER",
+          "driver_number": 11,
+          "lap": 51,
+          "lap_time_s": 77.785,
+          "date_start": "2024-06-23T14:11:33.124000+00:00"
+        },
+        {
+          "driver": "HAM",
+          "driver_number": 44,
+          "lap": 46,
+          "lap_time_s": 77.809,
+          "date_start": "2024-06-23T14:04:19.859000+00:00"
+        },
+        {
+          "driver": "PIA",
+          "driver_number": 81,
+          "lap": 56,
+          "lap_time_s": 77.874,
+          "date_start": "2024-06-23T14:17:45.575000+00:00"
+        }
+      ],
+      "raw_lap_lengths_m": [
+        4611.563361237778,
+        4611.712896180194,
+        4611.786846280762,
+        4611.243222207366,
+        4611.616714562859
+      ],
+      "smoothing_sensitivity": [
+        {
+          "window_points": 3,
+          "window_m": 15.0,
+          "length_m": 4593.4932340086725,
+          "min_radius_m": 29.084141678754214
+        },
+        {
+          "window_points": 5,
+          "window_m": 25.0,
+          "length_m": 4588.192265596332,
+          "min_radius_m": 30.28787138146382
+        },
+        {
+          "window_points": 9,
+          "window_m": 45.0,
+          "length_m": 4570.2888164026,
+          "min_radius_m": 30.539298725291303
+        },
+        {
+          "window_points": 15,
+          "window_m": 75.0,
+          "length_m": 4527.41555547874,
+          "min_radius_m": 30.522042169020764
+        }
+      ],
+      "file": "outputs/2024-10.parquet",
+      "figure": "outputs/figures/2024-10.png"
+    },
+    {
+      "race_id": "2024-13",
+      "session_key": 9566,
+      "circuit": "hungaroring",
+      "name": "Hungaroring",
+      "race_laps": 70,
+      "official_length_m": 4381.0,
+      "centerline_length_m": 4325.0,
+      "length_error_pct": -1.278246975576347,
+      "n_points": 865,
+      "grid_m": 5.0,
+      "reference_lap_time_s": 80.8622,
+      "min_radius_m": 27.218213680610592,
+      "smoothing_window_points": 9,
+      "smoothing_window_m": 45.0,
+      "selected_laps": [
+        {
+          "driver": "RUS",
+          "driver_number": 63,
+          "lap": 55,
+          "lap_time_s": 80.305,
+          "date_start": "2024-07-21T14:19:46.055000+00:00"
+        },
+        {
+          "driver": "SAR",
+          "driver_number": 2,
+          "lap": 65,
+          "lap_time_s": 80.561,
+          "date_start": "2024-07-21T14:35:04.945000+00:00"
+        },
+        {
+          "driver": "VER",
+          "driver_number": 1,
+          "lap": 51,
+          "lap_time_s": 80.908,
+          "date_start": "2024-07-21T14:13:44.363000+00:00"
+        },
+        {
+          "driver": "PER",
+          "driver_number": 11,
+          "lap": 49,
+          "lap_time_s": 81.096,
+          "date_start": "2024-07-21T14:11:27.839000+00:00"
+        },
+        {
+          "driver": "SAI",
+          "driver_number": 55,
+          "lap": 53,
+          "lap_time_s": 81.441,
+          "date_start": "2024-07-21T14:16:34.328000+00:00"
+        }
+      ],
+      "raw_lap_lengths_m": [
+        4327.012932647403,
+        4326.6143507197485,
+        4326.970955680882,
+        4326.71366258894,
+        4325.896502882481
+      ],
+      "smoothing_sensitivity": [
+        {
+          "window_points": 3,
+          "window_m": 15.0,
+          "length_m": 4296.068533372104,
+          "min_radius_m": 26.46349770094247
+        },
+        {
+          "window_points": 5,
+          "window_m": 25.0,
+          "length_m": 4289.954486282518,
+          "min_radius_m": 26.650677928885116
+        },
+        {
+          "window_points": 9,
+          "window_m": 45.0,
+          "length_m": 4269.316330945628,
+          "min_radius_m": 26.86778362215157
+        },
+        {
+          "window_points": 15,
+          "window_m": 75.0,
+          "length_m": 4220.16345734832,
+          "min_radius_m": 27.178983544996804
+        }
+      ],
+      "file": "outputs/2024-13.parquet",
+      "figure": "outputs/figures/2024-13.png"
+    },
+    {
+      "race_id": "2024-16",
+      "session_key": 9590,
+      "circuit": "monza",
+      "name": "Autodromo Nazionale Monza",
+      "race_laps": 53,
+      "official_length_m": 5793.0,
+      "centerline_length_m": 5760.0,
+      "length_error_pct": -0.5696530295183799,
+      "n_points": 1152,
+      "grid_m": 5.0,
+      "reference_lap_time_s": 81.7336,
+      "min_radius_m": 30.15196572414364,
+      "smoothing_window_points": 9,
+      "smoothing_window_m": 45.0,
+      "selected_laps": [
+        {
+          "driver": "NOR",
+          "driver_number": 4,
+          "lap": 53,
+          "lap_time_s": 81.432,
+          "date_start": "2024-09-01T14:17:00.536000+00:00"
+        },
+        {
+          "driver": "HAM",
+          "driver_number": 44,
+          "lap": 53,
+          "lap_time_s": 81.512,
+          "date_start": "2024-09-01T14:17:16.860000+00:00"
+        },
+        {
+          "driver": "VER",
+          "driver_number": 1,
+          "lap": 43,
+          "lap_time_s": 81.745,
+          "date_start": "2024-09-01T14:03:42.939000+00:00"
+        },
+        {
+          "driver": "PIA",
+          "driver_number": 81,
+          "lap": 53,
+          "lap_time_s": 81.943,
+          "date_start": "2024-09-01T14:16:56.299000+00:00"
+        },
+        {
+          "driver": "RUS",
+          "driver_number": 63,
+          "lap": 49,
+          "lap_time_s": 82.036,
+          "date_start": "2024-09-01T14:12:03.698000+00:00"
+        }
+      ],
+      "raw_lap_lengths_m": [
+        5760.125507215036,
+        5760.100479315598,
+        5760.232790716479,
+        5760.142142592703,
+        5760.168481729896
+      ],
+      "smoothing_sensitivity": [
+        {
+          "window_points": 3,
+          "window_m": 15.0,
+          "length_m": 5749.371765043906,
+          "min_radius_m": 23.206206477232477
+        },
+        {
+          "window_points": 5,
+          "window_m": 25.0,
+          "length_m": 5746.613484003407,
+          "min_radius_m": 24.30191324834198
+        },
+        {
+          "window_points": 9,
+          "window_m": 45.0,
+          "length_m": 5738.050299383564,
+          "min_radius_m": 30.037065269171368
+        },
+        {
+          "window_points": 15,
+          "window_m": 75.0,
+          "length_m": 5720.426143273771,
+          "min_radius_m": 42.865377521630805
+        }
+      ],
+      "file": "outputs/2024-16.parquet",
+      "figure": "outputs/figures/2024-16.png"
+    }
+  ]
+}

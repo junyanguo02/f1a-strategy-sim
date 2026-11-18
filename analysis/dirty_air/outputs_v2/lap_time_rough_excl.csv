@@ -1,0 +1,13 @@
+model,category,bin,est_lap_time_loss_s
+excl_attack,low,0.3-0.6,10.37304004162305
+excl_attack,low,0.6-1.0,5.255095146542044
+excl_attack,low,1.0-1.5,2.20793361297621
+excl_attack,low,1.5-3.0,1.558441381575946
+excl_attack,mid,0.3-0.6,1.8913760545138953
+excl_attack,mid,0.6-1.0,1.8682876480369797
+excl_attack,mid,1.0-1.5,0.837848374720264
+excl_attack,mid,1.5-3.0,0.43435352348753403
+excl_attack,high,0.3-0.6,0.0895332218041735
+excl_attack,high,0.6-1.0,0.020612040167299294
+excl_attack,high,1.0-1.5,
+excl_attack,high,1.5-3.0,
