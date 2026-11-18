@@ -3,6 +3,7 @@ import {createRoot} from 'react-dom/client'
 import {HashRouter,NavLink,Routes,Route,Link,useLocation} from 'react-router-dom'
 import type {Timeline,Finding} from './data'
 import {RaceTimeline,ForestPlot,TyreChart,CountChart,type CountData,Num} from './charts'
+const CarLab = lazy(() => import("./carlab/CarLab"))
 const Writeup = lazy(() => import('./writeup/Writeup'))
 const Lab=lazy(()=>import('./sim/Lab').then(m=>({default:m.Lab})))
 import type {RaceExport} from './sim/inputs'
@@ -61,8 +62,8 @@ function App(){
  const [lang,set]=useState<'en'|'zh'>(()=>localStorage.getItem('pitwall-language')==='zh'?'zh':'en'),location=useLocation()
  useEffect(()=>{document.documentElement.lang=lang==='en'?'en':'zh-CN';localStorage.setItem('pitwall-language',lang)},[lang])
  useEffect(()=>{window.scrollTo(0,0)},[location.pathname])
- return <Language.Provider value={lang}><header className="bar"><div className="shell"><Link className="brand" to="/"><i/>PITWALL</Link><nav>{[['/','Overview','总览'],['/story','Research','研究叙事'],['/lab','Strategy Lab','策略实验室'],['/writeup','Write-up','文章']].map(([to,en,zh])=><NavLink key={to} end to={to}>{lang==='en'?en:zh}</NavLink>)}</nav><div className="seg languages">{(['en','zh'] as const).map(l=><button key={l} lang={l} aria-pressed={lang===l} onClick={()=>set(l)}>{l==='en'?'EN':'中文'}</button>)}</div></div></header>
- <main className="shell"><Routes><Route path="/" element={<Home/>}/><Route path="/story" element={<Story/>}/><Route path="/lab" element={<Suspense fallback={<Status/>}><Lab/></Suspense>}/><Route path="/writeup" element={<Suspense fallback={<Status/>}><Writeup/></Suspense>}/><Route path="*" element={<Link to="/">{lang==='en'?'Overview':'总览'}</Link>}/></Routes></main>
+ return <Language.Provider value={lang}><header className="bar"><div className="shell"><Link className="brand" to="/"><i/>PITWALL</Link><nav>{[['/','Overview','总览'],['/story','Research','研究叙事'],['/lab','Strategy Lab','策略实验室'],['/carlab','Car Lab','车辆实验室'],['/writeup','Write-up','文章']].map(([to,en,zh])=><NavLink key={to} end to={to}>{lang==='en'?en:zh}</NavLink>)}</nav><div className="seg languages">{(['en','zh'] as const).map(l=><button key={l} lang={l} aria-pressed={lang===l} onClick={()=>set(l)}>{l==='en'?'EN':'中文'}</button>)}</div></div></header>
+ <main className="shell"><Routes><Route path="/" element={<Home/>}/><Route path="/story" element={<Story/>}/><Route path="/lab" element={<Suspense fallback={<Status/>}><Lab/></Suspense>}/><Route path="/carlab" element={<Suspense fallback={<Status/>}><CarLab/></Suspense>}/><Route path="/writeup" element={<Suspense fallback={<Status/>}><Writeup/></Suspense>}/><Route path="*" element={<Link to="/">{lang==='en'?'Overview':'总览'}</Link>}/></Routes></main>
  <footer className="shell">{lang==='en'?'Unofficial research project. This project is not associated with Formula 1 or any team.':'非官方研究项目，与一级方程式或任何车队均无关联。'}</footer></Language.Provider>
 }
 createRoot(document.getElementById('root')!).render(<HashRouter><App/></HashRouter>)

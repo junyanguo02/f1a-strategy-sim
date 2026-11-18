@@ -17,7 +17,7 @@ Write-up: https://junyanguo02.github.io/f1a-strategy-sim/#/writeup
 | Extra stop under Safety Car / VSC (26 pairs) | **−11.6 s** on average — the "cheap stop" effect points the other way (point estimate only: 95% CI −28.4 to +3.3 s). |
 | Simulator back-test vs teams' actual choices | Pre-race mode agrees with the actual number of stops **47%** of the time; when it disagrees, it recommends **fewer stops in 84%** of cases (exactly one fewer in 64%). Robust to pit-loss data cleaning: 79.9% (pre-race) and 93.1% (post-race) after removing wet-weather changes, timing anomalies and penalties. |
 | Explanations tested inside the model and not supported | Tyre "cliff", circuit-specific Safety Car rates, traffic/overtaking/undercut, deliberate tyre management on long stints, stint-to-stint degradation differences. |
-| Physics cross-check (lap simulator on 5 real 2024 circuits) | Mass sensitivity 0.017–0.030 s/kg/lap → fuel effect ≈ 0.034–0.049 s/lap, below the statistical term (0.048–0.070) but in the same circuit order under circuit-specific grip; a track-evolution proxy explains most of the gap, so the statistical "fuel" term is read as fuel + track evolution. |
+| Physics cross-check (lap simulator on 5 real 2024 circuits) | Mass sensitivity 0.017–0.030 s/kg/lap → fuel effect ≈ 0.034–0.049 s/lap, below the statistical term (0.048–0.070) with strong ordering agreement in the original circuit-specific fits (Spearman 0.9–1.0); the timestamp-corrected primary refit remains below all five posterior intervals, with Spearman 0.70; a track-evolution proxy explains most of the gap, so the statistical "fuel" term is read as fuel + track evolution. |
 
 These are descriptive results. These tests are run inside the model and do not prove causes in real races. Stop counts are chosen by teams, not randomised; team orders, track-position defence and risk preferences are not observable in public data.
 
@@ -32,6 +32,7 @@ These are descriptive results. These tests are run inside the model and do not p
   - common random numbers, so strategies are compared by paired differences;
   - **pre-race mode**: only information available before the race (previous-season tyre posterior, last three races' driver pace, pit-loss and SC history up to the race date).
 - **Lap simulator** (src/f1a/lapsim/) — point-mass quasi-steady-state lap-time model on real centrelines extracted from OpenF1 position data; calibrated to measured speed traces (effective parameters, cross-check only).
+- **[Car Lab](https://junyanguo02.github.io/f1a-strategy-sim/#/carlab)** — explore measured and simulated circuit speeds, fuel sensitivity and constant-gap wake scenarios.
 - **Interactive app** (`app/`) — pick a race, edit strategies, compare paired time differences, switch Safety Car scenarios and pre-race / post-race mode.
 
 ## Install
