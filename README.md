@@ -2,6 +2,8 @@
 
 Live site: https://junyanguo02.github.io/f1a-strategy-sim/
 
+Write-up: https://junyanguo02.github.io/f1a-strategy-sim/#/writeup
+
 **Do F1 teams stop too often under green flag?** A Bayesian tyre-degradation model, a single- and multi-car Monte Carlo race simulator, and a teammate natural experiment, built on public lap-by-lap data from the 2023–2026 seasons.
 
 > Status: research preview, November 2026 (package version 0.1.0). Author: Junyan Guo. Code: MIT. Data: see [Data and licences](#data-and-licences).

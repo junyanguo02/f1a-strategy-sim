@@ -3,6 +3,7 @@ import {createRoot} from 'react-dom/client'
 import {HashRouter,NavLink,Routes,Route,Link,useLocation} from 'react-router-dom'
 import type {Timeline,Finding} from './data'
 import {RaceTimeline,ForestPlot,TyreChart,CountChart,type CountData,Num} from './charts'
+const Writeup = lazy(() => import('./writeup/Writeup'))
 const Lab=lazy(()=>import('./sim/Lab').then(m=>({default:m.Lab})))
 import type {RaceExport} from './sim/inputs'
 import {theme} from './theme'
@@ -28,7 +29,7 @@ function TimelinePicker({story=false}:{story?:boolean}){
 function Home(){
  const t=useText(),f=useResource<{findings:Finding[]}>('findings')
  const stats=[[t('Green-flag pairs','绿旗配对'),'green','n',t('Dry teammate comparisons','干地队友对照')],[t('Extra stop under green','绿旗多停一次'),'green','estimate',t('Mean finish-time difference','完赛用时差均值')],[t('Adjusted estimate','调整后系数'),'adjusted','estimate',t('Grid and opening pace controlled','控制发车位与首段配速')],[t('Safety Car estimate','安全车点估计'),'safety','estimate',t('95% interval crosses zero','95% 区间跨零')]]
- return <><div className="cover"><div className="hero"><small className="kicker">{t('RACE STRATEGY RESEARCH','赛车策略研究')}</small><h1>{t('Do teams stop','车队在绿旗下')}<br/><span>{t('too often','是不是进站太多了？')}</span>{t(' under green?','')}</h1><p>{t('Compare teammates in the same race to see what an extra pit stop costs.','把同场队友放在一起，看多一次进站究竟花了多少时间。')}</p><div className="actions"><Link className="primary" to="/story">{t('Read the research','阅读研究')} ↗</Link><Link to="/lab">{t('Open Strategy Lab','打开策略实验室')} →</Link></div></div>
+ return <><div className="cover"><div className="hero"><small className="kicker">{t('RACE STRATEGY RESEARCH','赛车策略研究')}</small><h1>{t('Do teams stop','车队在绿旗下')}<br/><span>{t('too often','是不是进站太多了？')}</span>{t(' under green?','')}</h1><p>{t('Compare teammates in the same race to see what an extra pit stop costs.','把同场队友放在一起，看多一次进站究竟花了多少时间。')}</p><div className="actions"><Link className="primary" to="/story">{t('Read the research','阅读研究')} ↗</Link><Link to="/writeup">{t('Read the write-up','阅读文章')}</Link><Link to="/lab">{t('Open Strategy Lab','打开策略实验室')} →</Link></div></div>
  {f.value?<div className="tiles">{stats.map(([label,id,key,note])=>{const row=f.value!.findings.find(f=>f.id===id)!;return <article key={label}><small>{label}</small><strong><Num>{key==='n'?row.n:(row.estimate>0?'+':'')+row.estimate.toFixed(1)}</Num><em>{key==='n'?t('pairs','对'):'s'}</em></strong><span>{note}</span></article>})}</div>:<Status error={f.error}/>}</div>
  <TimelinePicker/><h2 className="sectionTitle">{t('Methods','研究方法')}</h2><div className="methods">{[
  [t('Teammate comparisons','队友对照'),t('Compare cars from the same team in the same race.','比较同场同队车手的完赛用时。')],
@@ -60,8 +61,8 @@ function App(){
  const [lang,set]=useState<'en'|'zh'>(()=>localStorage.getItem('pitwall-language')==='zh'?'zh':'en'),location=useLocation()
  useEffect(()=>{document.documentElement.lang=lang==='en'?'en':'zh-CN';localStorage.setItem('pitwall-language',lang)},[lang])
  useEffect(()=>{window.scrollTo(0,0)},[location.pathname])
- return <Language.Provider value={lang}><header className="bar"><div className="shell"><Link className="brand" to="/"><i/>PITWALL</Link><nav>{[['/','Overview','总览'],['/story','Research','研究叙事'],['/lab','Strategy Lab','策略实验室']].map(([to,en,zh])=><NavLink key={to} end to={to}>{lang==='en'?en:zh}</NavLink>)}</nav><div className="seg languages">{(['en','zh'] as const).map(l=><button key={l} lang={l} aria-pressed={lang===l} onClick={()=>set(l)}>{l==='en'?'EN':'中文'}</button>)}</div></div></header>
- <main className="shell"><Routes><Route path="/" element={<Home/>}/><Route path="/story" element={<Story/>}/><Route path="/lab" element={<Suspense fallback={<Status/>}><Lab/></Suspense>}/><Route path="*" element={<Link to="/">{lang==='en'?'Overview':'总览'}</Link>}/></Routes></main>
+ return <Language.Provider value={lang}><header className="bar"><div className="shell"><Link className="brand" to="/"><i/>PITWALL</Link><nav>{[['/','Overview','总览'],['/story','Research','研究叙事'],['/lab','Strategy Lab','策略实验室'],['/writeup','Write-up','文章']].map(([to,en,zh])=><NavLink key={to} end to={to}>{lang==='en'?en:zh}</NavLink>)}</nav><div className="seg languages">{(['en','zh'] as const).map(l=><button key={l} lang={l} aria-pressed={lang===l} onClick={()=>set(l)}>{l==='en'?'EN':'中文'}</button>)}</div></div></header>
+ <main className="shell"><Routes><Route path="/" element={<Home/>}/><Route path="/story" element={<Story/>}/><Route path="/lab" element={<Suspense fallback={<Status/>}><Lab/></Suspense>}/><Route path="/writeup" element={<Suspense fallback={<Status/>}><Writeup/></Suspense>}/><Route path="*" element={<Link to="/">{lang==='en'?'Overview':'总览'}</Link>}/></Routes></main>
  <footer className="shell">{lang==='en'?'Unofficial research project. This project is not associated with Formula 1 or any team.':'非官方研究项目，与一级方程式或任何车队均无关联。'}</footer></Language.Provider>
 }
 createRoot(document.getElementById('root')!).render(<HashRouter><App/></HashRouter>)

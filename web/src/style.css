@@ -5,3 +5,19 @@
 @media(max-width:720px){.story,.lab,.pair{grid-template-columns:minmax(0,1fr)}}
 .toolbar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:0 0 16px}.toolbar select{padding:0 8px}.notice,.tie{border-left:3px solid var(--focus);padding-left:12px}.tie{font-size:.85rem}.languages button{font-size:.77rem;padding:0 8px}.limitLink{display:inline-flex;padding:12px}.bar nav{margin-left:auto;margin-right:22px}footer{color:var(--muted);border-top:1px solid var(--line);padding-top:20px!important;padding-bottom:24px!important;font-size:.8rem}.track .handle .num{color:var(--focus)}.track span:first-letter{text-transform:uppercase}
 @media(max-width:720px){.bar .shell{height:auto;min-height:82px;display:grid;grid-template-columns:1fr auto}.bar nav{grid-row:2;grid-column:1/-1;gap:20px}.bar .languages{grid-column:2;grid-row:1}.languages button{min-height:34px}.bar nav a{padding:5px 0 9px}.lab aside{display:block}.lab label{margin:10px 0}.toolbar select{max-width:100%}.story .step>.panel{margin-top:20px}}
+
+.actions{flex-wrap:wrap}
+.paper{max-width:68ch;margin:clamp(2.5rem,7vw,6rem) auto;font-family:Inter,system-ui,sans-serif;font-size:clamp(1rem,1.4vw,1.15rem);line-height:1.75;font-variant-numeric:tabular-nums;overflow-wrap:break-word}
+.paper h1{font-size:clamp(2.4rem,5vw,4.4rem);max-width:19ch}
+.paper h1+p{color:var(--muted);padding-bottom:1.6rem;border-bottom:1px solid var(--line)}
+.paper h2{margin:2.4em 0 .6em;font-size:1.65em}
+.paper h3{margin:1.8em 0 .5em;font-size:1.25em}
+.paper li{margin:.65em 0}
+.paper ul,.paper ol{padding-inline-start:1.6em}
+.paper a{color:var(--focus);text-decoration:underline;text-underline-offset:.18em}
+.paper code{font-family:var(--mono);font-size:.88em;overflow-wrap:anywhere}
+.paper pre,.paper-table{overflow-x:auto;background:var(--panel);border:1px solid var(--line)}
+.paper pre{padding:1em}
+.paper table{width:100%;border-collapse:collapse;min-width:34rem;text-align:start;font-size:.9em}
+.paper th,.paper td{padding:.7em .9em;border-bottom:1px solid var(--line);text-align:start;vertical-align:top}
+.paper-links{display:flex;flex-wrap:wrap;gap:1.5em;border-top:1px solid var(--line);margin-top:2.5em;padding-top:1.2em}
