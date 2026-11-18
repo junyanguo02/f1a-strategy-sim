@@ -1,0 +1,24 @@
+{
+  "source": "analysis/backtest/prerace/comparison.csv",
+  "units": "driver-races",
+  "rows": [
+    {
+      "year": 2024,
+      "agree": 76,
+      "fewer": 73,
+      "more": 21
+    },
+    {
+      "year": 2025,
+      "agree": 90,
+      "fewer": 78,
+      "more": 22
+    },
+    {
+      "year": 2026,
+      "agree": 79,
+      "fewer": 80,
+      "more": 1
+    }
+  ]
+}

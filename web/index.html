@@ -1,0 +1,12 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0B0D10"><script>
+if (!location.hash || location.hash === '#/') {
+  for (const path of ['index','findings','races/2024-10/timeline']) {
+    const link = document.createElement('link')
+    link.rel = 'preload'
+    link.as = 'fetch'
+    link.crossOrigin = 'anonymous'
+    link.href = '%BASE_URL%data/' + path + '.json'
+    document.head.append(link)
+  }
+}
+</script><title>PITWALL · Race strategy research</title></head><body style="margin:0;background:#0B0D10"><div id="root"></div><script type="module" src="/src/main.tsx"></script></body></html>

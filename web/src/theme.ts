@@ -1,0 +1,2 @@
+export const theme={bg:'#0B0D10',panel:'#0F1317',line:'#232A33',text:'#E8ECF1',muted:'#A3AEBA',dim:'#8A96A3',red:'#E10600',loss:'#FF5A4E',gain:'#4FD1A5',focus:'#7CC8FF',soft:'#E10600',medium:'#F5C400',hard:'#E8E8E8',heading:'"Space Grotesk", sans-serif',body:'Inter, system-ui, sans-serif',mono:'"JetBrains Mono", ui-monospace, monospace',space:'8px'}
+export const tyres={SOFT:theme.soft,MEDIUM:theme.medium,HARD:theme.hard}

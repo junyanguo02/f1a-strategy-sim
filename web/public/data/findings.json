@@ -1,0 +1,46 @@
+{
+  "generated_at": "2026-11-18T00:00:00Z",
+  "source": "analysis/extra_stop/report.md; analysis/extra_stop_robustness/report.md",
+  "units": {
+    "estimate": "s",
+    "ci": "s",
+    "n": "pairs"
+  },
+  "findings": [
+    {
+      "id": "green",
+      "label": "绿旗 · 多停一次",
+      "estimate": 16.43,
+      "ci": [
+        8.77,
+        25.02
+      ],
+      "n": 82,
+      "source": "analysis/extra_stop/report.md:18; analysis/extra_stop_robustness/report.md:19"
+    },
+    {
+      "id": "adjusted",
+      "label": "排除被迫进站并调整",
+      "estimate": 10.33,
+      "se": 3.62,
+      "p": 0.006,
+      "n": 426,
+      "source": "analysis/extra_stop_robustness/report.md:22"
+    },
+    {
+      "id": "safety",
+      "label": "SC / VSC · 多停一次",
+      "estimate": -11.606,
+      "ci": [
+        -28.37,
+        3.29
+      ],
+      "n": 26,
+      "source": "analysis/extra_stop/report.md:19; analysis/extra_stop_robustness/report.md:20"
+    }
+  ],
+  "stop_counts": {
+    "path": "findings/stop-counts.json",
+    "source": "analysis/backtest/prerace/comparison.csv"
+  }
+}
