@@ -24,3 +24,17 @@ analysis/fcy_inputs/outputs/*
 node_modules/
 posteriors/outputs*/
 !web/public/data/
+
+!analysis/pitloss_audit/outputs/
+analysis/pitloss_audit/outputs/*
+!analysis/pitloss_audit/outputs/extreme_classification.csv
+!analysis/pitloss_audit/outputs/fallback_races.csv
+!analysis/pitloss_audit/outputs/pool_stats_fcy.csv
+!analysis/pitloss_audit/outputs/pool_stats_normal.csv
+
+!analysis/pitloss_sensitivity/outputs/
+analysis/pitloss_sensitivity/outputs/*
+!analysis/pitloss_sensitivity/outputs/counts.csv
+!analysis/pitloss_sensitivity/outputs/pool_means.csv
+!analysis/pitloss_sensitivity/outputs/pool_sources.csv
+!analysis/pitloss_sensitivity/outputs/paired.csv

@@ -1,5 +1,7 @@
 """比赛设置：总圈数、基础圈时、进站损失样本、SC/VSC 出现率与持续圈数、FCY 圈时倍数。"""
 from __future__ import annotations
+from contextlib import contextmanager
+from contextvars import ContextVar
 from dataclasses import dataclass, field
 from pathlib import Path
 import numpy as np
@@ -9,6 +11,55 @@ FCY_TYPES = ("VSC", "SC")          # 状态编码：0 绿旗，1 VSC，2 SC
 N_PROGRESS_BINS = 5
 # T018 的 dt 分组 → 模拟器里“进站发生在 FCY 段的第几圈”
 PHASE_GROUPS = {1: ("宣布后0-60秒", "60秒-1圈"), 2: ("1-2圈",), 3: ("2圈以后",)}
+
+
+# The batch entry point selects one filter for nested pre- and post-race builds.
+_batch_filter = ContextVar("batch_pit_loss_filter", default=(None, (10., 60.)))
+
+
+@contextmanager
+def pit_loss_batch(mode, bounds=(10., 60.)):
+    """Apply a filter across nested race constructors in one CLI run."""
+    token = _batch_filter.set((mode, bounds))
+    try:
+        yield
+    finally:
+        _batch_filter.reset(token)
+
+
+def pit_tables(root, mode=None, bounds=(10., 60.), *, history=None):
+    """Preserve source row order in both the normal and the T018 phase pools."""
+    root = Path(root)
+    if mode is None:
+        mode, bounds = _batch_filter.get()
+    if mode not in (None, "range", "clean"):
+        raise ValueError(f"unknown pit_loss_filter: {mode}")
+    path = root / "analysis/fcy_inputs/pit_loss_relative.parquet"
+    if mode == "clean":
+        path = root / "analysis/pitloss_audit/outputs/pit_loss_relative_clean.parquet"
+        if not path.is_file():
+            raise FileNotFoundError(f"T042 clean pit-loss table missing: {path}")
+    pl = pd.read_parquet(path)
+    det = pd.read_csv(root / "analysis/sc_pit_timing/outputs/pit_match_detail.csv")
+    if history is not None:
+        pl, det = history(pl), history(det)
+    if mode == "range":
+        lo, hi = bounds
+        if not np.isfinite([lo, hi]).all() or lo > hi:
+            raise ValueError("pit_loss_bounds must be finite and ordered")
+        return (pl.loc[pl.relative_loss_s.between(lo, hi)],
+                det.loc[det.relative_loss_s.between(lo, hi)])
+    if mode == "clean":
+        keys = ["year", "round", "driver", "lap"]
+        keep = pl["clean_keep"]
+        if not pd.api.types.is_bool_dtype(keep) or keep.isna().any():
+            raise ValueError("T042 clean_keep must be boolean and non-null")
+        flags = pl.set_index(keys, verify_integrity=True).clean_keep
+        selected = flags.reindex(pd.MultiIndex.from_frame(det[keys]))
+        if selected.isna().any():
+            raise ValueError("T018 pit without matching T042 clean_keep decision")
+        return pl.loc[keep], det.loc[selected.to_numpy(dtype=bool)]
+    return pl, det
 
 
 @dataclass
@@ -35,7 +86,8 @@ class RaceConfig:
 
     @classmethod
     def from_project(cls, root, race_id: str, min_circuit_pits: int = 10, fcy_by_circuit: bool = False,
-                     prior_laps: float = 300.0) -> "RaceConfig":
+                     prior_laps: float = 300.0, *, pit_loss_filter=None, pit_loss_bounds=(10., 60.)) -> "RaceConfig":
+        """Use the original pools, inclusive range bounds, or the T042 clean_keep flag."""
         root = Path(root)
         P = root / "data" / "processed"
         ml = pd.read_parquet(P / "model_laps.parquet")
@@ -43,8 +95,7 @@ class RaceConfig:
         if r.empty:
             raise KeyError(race_id)
         circuit = r.circuit_id.iloc[0]
-        pl = pd.read_parquet(root / "analysis" / "fcy_inputs" / "pit_loss_relative.parquet")
-        det = pd.read_csv(root / "analysis" / "sc_pit_timing" / "outputs" / "pit_match_detail.csv")
+        pl, det = pit_tables(root, pit_loss_filter, pit_loss_bounds)
         ep = pd.read_parquet(P / "fcy_episodes.parquet")
         rs = pd.read_csv(P / "fcy_race_summary.csv")
         L = pd.read_parquet(P / "laps_pit_filled.parquet")
@@ -118,7 +169,8 @@ class RaceConfig:
                    durations=durations, lap_mult=lap_mult, notes=notes)
 
     @classmethod
-    def from_prerace(cls, root, schedule, cutoff, race_id, circuit, n_laps, base, historical_laps, by_circuit=False):
+    def from_prerace(cls, root, schedule, cutoff, race_id, circuit, n_laps, base, historical_laps, by_circuit=False, *,
+                     pit_loss_filter=None, pit_loss_bounds=(10., 60.)):
         """Build pit/FCY distributions only from completed races before cutoff."""
         from .prerace import Unavailable, before
         processed = root / "data/processed"
@@ -130,9 +182,9 @@ class RaceConfig:
         ep = history(pd.read_parquet(processed / "fcy_episodes.parquet"))
         if rs.empty or not {"SC","VSC"}.issubset(set(ep.type)):
             raise Unavailable("no_fcy_history")
+        pl, det = pit_tables(root, pit_loss_filter, pit_loss_bounds, history=history)
         race = cls.from_samples(race_id, circuit, n_laps, float(base),
-                                history(pd.read_parquet(root / "analysis/fcy_inputs/pit_loss_relative.parquet")),
-                                history(pd.read_csv(root / "analysis/sc_pit_timing/outputs/pit_match_detail.csv")),
+                                pl, det,
                                 ep, rs, history(historical_laps), fcy_by_circuit=by_circuit)
         if not len(race.pit_normal) or any(not len(v) for v in race.pit_fcy.values()):
             raise Unavailable("no_pit_history")

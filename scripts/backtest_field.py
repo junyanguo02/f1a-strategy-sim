@@ -20,9 +20,16 @@ def main():
     ap.add_argument("--races", nargs="*", help="只跑指定 race_id（调试用）")
     ap.add_argument("--prerace", action="store_true", help="使用严格日期截止的赛前输入")
     ap.add_argument("--sensitivity", action="store_true", help="赛前多车四组单因素敏感性")
+    ap.add_argument("--pit-loss-filter", choices=["range", "clean"])
     a = ap.parse_args()
     if a.sensitivity and not a.prerace:
         ap.error("--sensitivity requires --prerace")
+    from f1a.sim.race import pit_loss_batch
+    with pit_loss_batch(a.pit_loss_filter):
+        return run(a)
+
+
+def run(a):
     if a.prerace:
         from f1a.sim.prerace import run_season
         return run_season(ROOT, a, field=True)
@@ -57,4 +64,4 @@ if __name__ == "__main__":
     try:
         main()
     except FileNotFoundError as exc:
-        raise SystemExit(f"Missing local input: {exc.filename}. See scripts/download_data.md.") from None
+        raise SystemExit(f"Missing local input: {exc.filename or exc}. See scripts/download_data.md.") from None
